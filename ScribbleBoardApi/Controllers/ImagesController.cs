@@ -11,7 +11,7 @@ using ScribbleBoardApi.Models;
 namespace ScribbleBoardApi.Controllers
 {
   [ApiController]
-  [Route("[controller]")]
+  [Route("api/scribbleboard/[controller]")]
   public class ImagesController : ControllerBase
   {
     private readonly ScribbleBoardApiContext _db;
