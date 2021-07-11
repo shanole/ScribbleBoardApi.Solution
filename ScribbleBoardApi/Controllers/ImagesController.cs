@@ -41,7 +41,7 @@ namespace ScribbleBoardApi.Controllers
       }
       return img;
     }
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<IActionResult> Put(int id, Image image)
     {
       if (id != image.ImageId)
