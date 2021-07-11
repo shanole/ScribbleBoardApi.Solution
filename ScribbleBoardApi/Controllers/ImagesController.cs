@@ -88,8 +88,8 @@ namespace ScribbleBoardApi.Controllers
         image.CopyTo(stream);
         var img = new Image()
         {
-          Data = stream.ToArray(),
-          UserId = 0,
+          Data = "data:image/jpeg;base64," + Convert.ToBase64String(stream.ToArray()),
+          // UserId = 0,
           Title = image.FileName,
           Description = $"Description for {image.FileName}",
           CreatedAt = DateTime.Now
