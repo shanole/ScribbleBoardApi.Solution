@@ -11,7 +11,7 @@ using ScribbleBoardApi.Models;
 namespace ScribbleBoardApi.Controllers
 {
   [ApiController]
-  [Route("api/scribbleboard/[controller]")]
+  [Route("api/[controller]")]
   public class ImagesController : ControllerBase
   {
     private readonly ScribbleBoardApiContext _db;
@@ -70,7 +70,7 @@ namespace ScribbleBoardApi.Controllers
     public async Task<IActionResult> DeleteImage(int id)
     {
       var img = await _db.Images.FindAsync(id);
-      if (id == null)
+      if (img == null)
       {
         return NotFound();
       }
@@ -88,9 +88,8 @@ namespace ScribbleBoardApi.Controllers
         image.CopyTo(stream);
         var img = new Image()
         {
-          Data = stream.ToArray(),
-          Artist = "Direct upload",
-          ArtistId = 0,
+          Data = "data:image/jpeg;base64," + Convert.ToBase64String(stream.ToArray()),
+          // UserId = 0,
           Title = image.FileName,
           Description = $"Description for {image.FileName}",
           CreatedAt = DateTime.Now
