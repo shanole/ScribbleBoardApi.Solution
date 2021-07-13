@@ -20,9 +20,18 @@ namespace ScribbleBoardApi.Controllers
       _db = db;
     }
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Image>>> Get()
+    public async Task<ActionResult<IEnumerable<Image>>> Get(string userId, string userName)
     {
-      return await _db.Images.ToListAsync();
+      var query = _db.Images.AsQueryable();
+      if (userId != null)
+      {
+        query = query.Where(e => e.UserId == userId);
+      }
+      if (userName != null)
+      {
+        query = query.Where(e => e.UserName == userName);
+      }
+      return await query.ToListAsync();
     }
     [HttpPost]
     public async Task<ActionResult<Image>> Post(Image image)
@@ -89,7 +98,8 @@ namespace ScribbleBoardApi.Controllers
         var img = new Image()
         {
           Data = "data:image/jpeg;base64," + Convert.ToBase64String(stream.ToArray()),
-          // UserId = 0,
+          UserId = "directUploadID",
+          UserName = "directUpload",
           Title = image.FileName,
           Description = $"Description for {image.FileName}",
           CreatedAt = DateTime.Now
